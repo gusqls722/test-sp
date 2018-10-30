@@ -19,7 +19,7 @@
 		<constructor-arg ref="hikariConfig"></constructor-arg>
 	</bean>
 	
-	<bean id="dsp" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+	<bean id="ds" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
 		<constructor-arg ref="hds"/>
 		<property name="logFormatter">
 			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
@@ -27,5 +27,14 @@
 				<property name="sqlPrefix" value="SQL : "/>
 			</bean>
 		</property>
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<constructor-arg ref="ds"/>
+		<property name="mapperLocations" value="classpath:mapper/*.xml"/>
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"/>
 	</bean>
 </beans>
